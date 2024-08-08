@@ -1,73 +1,89 @@
-// Movie.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMoviesByGenres } from "../redux/actions";
 import { setGenres } from "../redux/reducers";
+import { AVAILABLEGENRES } from "../constants";
+import { getDataFromStorage, setDataToStorage } from "../utils/localStorage";
+import PaginatedItems from "../components/PaginatedItem";
+import Layout from "./Layout";
 
 const Movie = () => {
+  const [genreIds, setGenreIds] = useState([]);
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.movies.data);
-  const genres = useSelector((state) => state.genres);
-  const status = useSelector((state) => state.movies.status);
-  const error = useSelector((state) => state.movies.error);
 
-  const availableGenres = [
-    { id: 28, name: "Action" },
-    { id: 12, name: "Adventure" },
-    { id: 16, name: "Animation" },
-  ];
+  const { data: movies, status, error } = useSelector((state) => state.movies);
+
+  useEffect(() => {
+    const genreFromLS = getDataFromStorage("genres");
+    if (genreFromLS) {
+      setGenreIds(genreFromLS);
+    }
+  }, []);
+
+  useEffect(() => {
+    setDataToStorage("genres", genreIds);
+  }, [genreIds]);
 
   const handleGenreChange = (genreId) => {
-    const newGenres = genres.includes(genreId)
-      ? genres.filter((id) => id !== genreId)
-      : [...genres, genreId];
+    const newGenres = genreIds.includes(genreId)
+      ? genreIds.filter((id) => id !== genreId)
+      : [...genreIds, genreId];
     dispatch(setGenres(newGenres));
+    setGenreIds(newGenres);
   };
 
   useEffect(() => {
-    if (genres.length > 0) {
-      dispatch(fetchMoviesByGenres(genres));
+    if (genreIds.length > 0) {
+      dispatch(fetchMoviesByGenres(genreIds));
     }
-  }, [genres, dispatch]);
+  }, [genreIds, dispatch]);
 
   return (
-    <div>
-      <h1>Movie Recommendations</h1>
-      <div>
-        <h2>Select Genres</h2>
-        {availableGenres.map((genre) => (
-          <label key={genre.id}>
-            <input
-              type="checkbox"
-              value={genre.id}
-              onChange={() => handleGenreChange(genre.id)}
-              checked={genres.includes(genre.id)}
+    <Layout>
+      <div className="">
+        <div className="text-stone-200 font-serif mt-8">
+          <h2 className="font-semibold text-2xl font-serif mb-3">
+            Select Genres
+          </h2>
+
+          {AVAILABLEGENRES.map((genre) => (
+            <div
+              key={genre.id}
+              className="mb-4 text-lg flex items-center"
+            >
+              <label
+                htmlFor={`genre-${genre.id}`}
+                className="ml-2 cursor-pointer"
+              >
+                {genre.name}
+              </label>
+              <input
+                id={`genre-${genre.id}`}
+                type="checkbox"
+                value={genre.id}
+                onChange={() => handleGenreChange(genre.id)}
+                checked={genreIds.includes(genre.id)}
+                
+                className="cursor-pointer h-6 w-6 ml-2"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 text-stone-300">
+          <h2 className="mb-6 text-center text-lg font-semibold">
+            Recommended Movies
+          </h2>
+          {status === "loading" && <p>Loading...</p>}
+          {status === "failed" && <p>Error: {error}</p>}
+          {status === "succeeded" && (
+            <PaginatedItems
+              items={movies}
+              itemsPerPage={4}
             />
-            {genre.name}
-          </label>
-        ))}
+          )}
+        </div>
       </div>
-      <div>
-        <h2>Recommended Movies</h2>
-        {status === "loading" && <p>Loading...</p>}
-        {status === "failed" && <p>Error: {error}</p>}
-        {status === "succeeded" && (
-          <ul>
-            {movies.map((movie) => (
-              <li key={movie.id}>
-                <h3>{movie.title}</h3>
-                <p>{movie.overview}</p>
-                <p>Release Date: {movie.release_date}</p>
-                <img
-                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                  alt={movie.title}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
+    </Layout>
   );
 };
 

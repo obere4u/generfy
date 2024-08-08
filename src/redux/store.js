@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { movieReducer, genreReducer } from "./reducers";
-import localStorageMiddleware from "./middleware/localStorage";
+import { getDataFromStorage } from "../utils/localStorage";
 
 // Combine reducers into a root reducer
 const rootReducer = combineReducers({
@@ -8,36 +8,30 @@ const rootReducer = combineReducers({
   genres: genreReducer,
 });
 
-const initialState = {
-  data: [],
-  status: "idle",
-  error: null,
-};
-
 // Load initial state from local storage
 const loadStateFromLocalStorage = () => {
   try {
-    const storedMovies = localStorage.getItem("movies");
-    const storedGenres = localStorage.getItem("genres");
+    const storedMovies = getDataFromStorage("movies");
+    const storedGenres = getDataFromStorage("genres");
 
-    const movies = storedMovies ? JSON.parse(storedMovies) : initialState;
-    const genres = storedGenres ? JSON.parse(storedGenres) : [];
-
-    return { movies, genres };
+    return {
+      movies: storedMovies
+        ? { data: storedMovies, status: "idle", error: null }
+        : undefined,
+      genres: storedGenres || [],
+    };
   } catch (error) {
     console.error("Failed to load state from local storage:", error);
-    return { movies: initialState, genres: [] };
+    return {};
   }
 };
 
 const preloadedState = loadStateFromLocalStorage();
 
-// Create store with root reducer, preloaded state, and middleware
+// Create store with root reducer, preloaded state
 const store = configureStore({
   reducer: rootReducer,
   preloadedState,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(localStorageMiddleware),
 });
 
 export default store;

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchMoviesByGenres } from "./actions";
 
 const initialState = {
-  data: [],
+  data: {},
   status: "idle",
   error: null,
 };
@@ -12,7 +12,7 @@ const moviesSlice = createSlice({
   initialState,
   reducers: {
     setMovies: (state, action) => {
-      state.push(action.payload);
+      state.data = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -21,11 +21,11 @@ const moviesSlice = createSlice({
     });
     builder.addCase(fetchMoviesByGenres.fulfilled, (state, action) => {
       state.status = "succeeded";
-      state.data = [...state.data, ...action.payload];
+      state.data = action.payload;
     });
     builder.addCase(fetchMoviesByGenres.rejected, (state, action) => {
       state.status = "failed";
-      state.error = action.error.message;
+      state.error = action.payload;
     });
   },
 });
@@ -34,9 +34,7 @@ const genresSlice = createSlice({
   name: "genres",
   initialState: [],
   reducers: {
-    setGenres: (state, action) => {
-      return action.payload;
-    },
+    setGenres: (state, action) => action.payload,
   },
 });
 
