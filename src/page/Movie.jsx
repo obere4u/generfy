@@ -64,7 +64,7 @@ const Movie = () => {
         <h2 className="font-semibold text-2xl font-serif mb-6">
           Select Genres
         </h2>
-        <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-10 gap-2">
+        <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2 w-full">
           {AVAILABLEGENRES.map((genre) => (
             <Genre
               key={genre.id}
