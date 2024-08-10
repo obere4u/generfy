@@ -1,89 +1,96 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMoviesByGenres } from "../redux/actions";
-import { setGenres } from "../redux/reducers";
 import { AVAILABLEGENRES } from "../constants";
 import { getDataFromStorage, setDataToStorage } from "../utils/localStorage";
 import PaginatedItems from "../components/PaginatedItem";
-import Layout from "./Layout";
+import MovieCardSkeleton from "../components/MovieCardSkeleton";
+import Genre from "../components/Genre";
+import { clearMovies } from "../redux/reducers";
 
 const Movie = () => {
   const [genreIds, setGenreIds] = useState([]);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
 
-  const { data: movies, status, error } = useSelector((state) => state.movies);
+  const {
+    data: movies,
+    status,
+    error,
+    totalPages,
+  } = useSelector((state) => state.allMovies);  
 
   useEffect(() => {
     const genreFromLS = getDataFromStorage("genres");
-    if (genreFromLS) {
+    if (genreFromLS && genreFromLS.length > 0) {
       setGenreIds(genreFromLS);
     }
   }, []);
 
   useEffect(() => {
-    setDataToStorage("genres", genreIds);
-  }, [genreIds]);
+    if (genreIds.length > 0) {
+      setDataToStorage("genres", genreIds);
+      dispatch(fetchMoviesByGenres({ selectedGenres: genreIds, page }));
+    } else {
+      dispatch(clearMovies());
+    }
+  }, [genreIds, page, dispatch]);
 
   const handleGenreChange = (genreId) => {
     const newGenres = genreIds.includes(genreId)
       ? genreIds.filter((id) => id !== genreId)
       : [...genreIds, genreId];
-    dispatch(setGenres(newGenres));
+
     setGenreIds(newGenres);
+    setDataToStorage("genres", newGenres);
+
+    if (newGenres.length === 0) {
+      dispatch(clearMovies());
+    } else {
+      setPage(1);
+    }
   };
 
-  useEffect(() => {
-    if (genreIds.length > 0) {
-      dispatch(fetchMoviesByGenres(genreIds));
-    }
-  }, [genreIds, dispatch]);
+  const handlePageChange = (selectedPage) => {
+    setPage(selectedPage);
+  };
 
   return (
-    <Layout>
-      <div className="">
-        <div className="text-stone-200 font-serif mt-8">
-          <h2 className="font-semibold text-2xl font-serif mb-3">
-            Select Genres
-          </h2>
-
+    <div>
+      <div className="w-fit text-stone-200 font-serif">
+        <h2 className="font-semibold text-2xl font-serif mb-6">
+          Select Genres
+        </h2>
+        <div className="md:flex md:space-x-16">
           {AVAILABLEGENRES.map((genre) => (
-            <div
+            <Genre
               key={genre.id}
-              className="mb-4 text-lg flex items-center"
-            >
-              <label
-                htmlFor={`genre-${genre.id}`}
-                className="ml-2 cursor-pointer"
-              >
-                {genre.name}
-              </label>
-              <input
-                id={`genre-${genre.id}`}
-                type="checkbox"
-                value={genre.id}
-                onChange={() => handleGenreChange(genre.id)}
-                checked={genreIds.includes(genre.id)}
-                
-                className="cursor-pointer h-6 w-6 ml-2"
-              />
-            </div>
+              id={genre.id}
+              genre={genre}
+              genreIds={genreIds}
+              handleGenreChange={handleGenreChange}
+            />
           ))}
         </div>
-        <div className="mt-8 text-stone-300">
-          <h2 className="mb-6 text-center text-lg font-semibold">
-            Recommended Movies
-          </h2>
-          {status === "loading" && <p>Loading...</p>}
-          {status === "failed" && <p>Error: {error}</p>}
-          {status === "succeeded" && (
-            <PaginatedItems
-              items={movies}
-              itemsPerPage={4}
-            />
-          )}
-        </div>
       </div>
-    </Layout>
+      <div className="mt-8 text-stone-300">
+        <h2 className="mb-6 text-center text-lg font-semibold">
+          Recommended Movies
+        </h2>
+        {status === "loading" && <MovieCardSkeleton count={4} />}
+        {status === "failed" && <p>Error: {error}</p>}
+        {movies && (
+          <PaginatedItems
+            page={page}
+            items={movies}
+            itemsPerPage={20}
+            currentPage={page}
+            handlePageChange={handlePageChange}
+            totalPages={totalPages}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 

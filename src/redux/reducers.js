@@ -1,45 +1,80 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchMoviesByGenres } from "./actions";
+import { fetchMovieById, fetchMoviesByGenres } from "./actions";
 
-const initialState = {
-  data: {},
-  status: "idle",
-  error: null,
-};
-
-const moviesSlice = createSlice({
-  name: "movies",
-  initialState,
+const allMoviesSlice = createSlice({
+  name: "allMovies",
+  initialState: {
+    data: [],
+    status: "idle",
+    error: null,
+    totalPages: 0, // Initialize totalPages in the state
+  },
   reducers: {
-    setMovies: (state, action) => {
-      state.data = action.payload;
+    clearMovies(state) {
+      state.data = [];
+      state.totalPages = 0; // Clear totalPages when movies are cleared
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchMoviesByGenres.pending, (state) => {
+    builder
+      .addCase(fetchMoviesByGenres.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchMoviesByGenres.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = action.payload.results; 
+        state.totalPages = action.payload.totalPages;
+        
+      })
+      .addCase(fetchMoviesByGenres.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+  },
+});
+
+export const { clearMovies } = allMoviesSlice.actions;
+export const allMoviesReducer = allMoviesSlice.reducer;
+
+//movie ID slice
+const movieByIdSlice = createSlice({
+  name: "movieById",
+  initialState: {
+    data: null,
+    status: "idle",
+    error: null,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchMovieById.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(fetchMoviesByGenres.fulfilled, (state, action) => {
+    builder.addCase(fetchMovieById.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.data = action.payload;
     });
-    builder.addCase(fetchMoviesByGenres.rejected, (state, action) => {
+    builder.addCase(fetchMovieById.rejected, (state) => {
       state.status = "failed";
-      state.error = action.payload;
     });
   },
 });
 
+export const { setMovieByIdSlice } = movieByIdSlice.actions;
+export const movieByIdReducer = movieByIdSlice.reducer;
+
+// Genres Slice
 const genresSlice = createSlice({
   name: "genres",
-  initialState: [],
+  initialState: {
+    data: null, 
+    status: "idle",
+    error: null,
+  },
   reducers: {
-    setGenres: (state, action) => action.payload,
+    setGenres: (state, action) => {
+      state.data = action.payload.slice();
+    },
   },
 });
 
-export const { setMovies } = moviesSlice.actions;
 export const { setGenres } = genresSlice.actions;
-
-export const movieReducer = moviesSlice.reducer;
-export const genreReducer = genresSlice.reducer;
+export const genresReducer = genresSlice.reducer;

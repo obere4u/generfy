@@ -1,23 +1,20 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { movieReducer, genreReducer } from "./reducers";
+import { genresReducer, movieByIdReducer, allMoviesReducer } from "./reducers";
 import { getDataFromStorage } from "../utils/localStorage";
 
 // Combine reducers into a root reducer
 const rootReducer = combineReducers({
-  movies: movieReducer,
-  genres: genreReducer,
+  allMovies: allMoviesReducer,
+  movieById: movieByIdReducer,
+  genres: genresReducer,
 });
 
 // Load initial state from local storage
 const loadStateFromLocalStorage = () => {
   try {
-    const storedMovies = getDataFromStorage("movies");
     const storedGenres = getDataFromStorage("genres");
 
     return {
-      movies: storedMovies
-        ? { data: storedMovies, status: "idle", error: null }
-        : undefined,
       genres: storedGenres || [],
     };
   } catch (error) {
@@ -25,6 +22,7 @@ const loadStateFromLocalStorage = () => {
     return {};
   }
 };
+
 
 const preloadedState = loadStateFromLocalStorage();
 

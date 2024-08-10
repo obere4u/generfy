@@ -1,22 +1,36 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Movie from "./page/Movie";
+import MovieDetails from "./components/MovieDetails";
 import Header from "./components/Header";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./page/Layout";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
-export default function App() {
+function App() {
   return (
-    <div className="h-screen">
-      <Router>
+    <Router>
+      <ScrollToTop/>
+      <div className="flex flex-col h-screen">
         <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={<Movie />}
-          />
-        </Routes>
+        <main className=" ">
+          <Layout>
+            <Routes>
+              <Route
+                path="/"
+                element={<Movie />}
+              />
+              <Route
+                path="/movies/:id"
+                element={<MovieDetails />}
+              />
+            </Routes>
+          </Layout>
+        </main>
         <Footer />
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 }
+
+export default App;
