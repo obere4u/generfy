@@ -48,7 +48,7 @@ const MovieDetails = () => {
 
         <div className="flex flex-col space-y-4">
           {/* write up */}
-          <div className="mt-4 md:mt-0 w-[500px]">
+          <div className="mt-4 mb-6 md:mt-0 w-[500px]">
             <p className=" text-stone-100">
               <span className="text-lg text-neutral-400 capitalize">
                 status:
