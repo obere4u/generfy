@@ -18,7 +18,7 @@ const Movie = () => {
     status,
     error,
     totalPages,
-  } = useSelector((state) => state.allMovies);  
+  } = useSelector((state) => state.allMovies);
 
   useEffect(() => {
     const genreFromLS = getDataFromStorage("genres");
@@ -28,6 +28,7 @@ const Movie = () => {
   }, []);
 
   useEffect(() => {
+    console.log("Genre or page changed:", genreIds, page);
     if (genreIds.length > 0) {
       setDataToStorage("genres", genreIds);
       dispatch(fetchMoviesByGenres({ selectedGenres: genreIds, page }));
@@ -47,12 +48,14 @@ const Movie = () => {
     if (newGenres.length === 0) {
       dispatch(clearMovies());
     } else {
+      console.log("Resetting page to 1");
       setPage(1);
     }
   };
 
   const handlePageChange = (selectedPage) => {
     setPage(selectedPage);
+    window.scrollTo(0, 0); 
   };
 
   return (
