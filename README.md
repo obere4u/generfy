@@ -1,8 +1,8 @@
-# Movie Recommendation App
+# Generfy
 
 ## Overview
 
-This Movie Recommendation App allows users to discover movie recommendations based on their favorite genres. It fetches movie data from The Movie Database (TMDB) API and uses Redux for state management and Local Storage for data persistence.
+Generfy is a Movie Recommendation App that lets users discover movie recommendations based on their favorite genres. It fetches movie data from The Movie Database (TMDB) API and uses Redux for state management and Local Storage for data persistence.
 
 ## Features
 
@@ -14,10 +14,10 @@ This Movie Recommendation App allows users to discover movie recommendations bas
 ## Setup
 
 1. Clone the repository:
-  (git clone https://github.com/yourusername/movie-recommendation-app.git)[git clone https://github.com/yourusername/movie-recommendation-app.git]
+  [https://github.com/obere4u/generfy.git](https://github.com/obere4u/generfy.git)
    
-2. cd movie-recommendation-app
+2. cd generfy
 
-3. Run `npm i` to install neccessary packages
+3. Run `npm i` to install the necessary packages
 
 4. Run `npm run dev` to start the development server
