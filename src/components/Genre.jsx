@@ -2,7 +2,7 @@ import React from "react";
 
 const Genre = ({ id, genre, genreIds, handleGenreChange }) => {
   return (
-    <div className="mb-4 text-lg flex items-center w-full">
+    <div className="mb-4 flex items-center w-fit">
       <label
         htmlFor={`genre-${genre.id}`}
         className="md:mr-1 cursor-pointer md:w-fit w-full"
@@ -17,7 +17,7 @@ const Genre = ({ id, genre, genreIds, handleGenreChange }) => {
         checked={genreIds.includes(genre.id)}
         aria-checked={genreIds.includes(genre.id)}
         aria-labelledby={`genre-${genre.id}`}
-        className="cursor-pointer h-6 w-6 ml-1"
+        className="cursor-pointer h-4 w-4 ml-1"
       />
     </div>
   );

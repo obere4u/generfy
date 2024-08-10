@@ -34,14 +34,14 @@ const MovieDetails = () => {
 
   return (
     <div className="text-stone-200 font-serif pb-8 max-w-[1000px] mx-auto">
-      <h2 className="font-semibold text-2xl mb-3">{movie.title}</h2>
+      <h2 className="font-semibold text-2xl my-6">{movie.title}</h2>
       <div className="md:flex md:space-x-8 items-start ">
         {movie.poster_path && (
           <div className=" ">
             <img
               src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
               alt={movie.title}
-              className="h-[400px] w-[400px]"
+              className="h-[400px] md:w-[400px] w-full mb-4 md:mb-0"
             />
           </div>
         )}

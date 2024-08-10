@@ -11,18 +11,11 @@ const rootReducer = combineReducers({
 
 // Load initial state from local storage
 const loadStateFromLocalStorage = () => {
-  try {
-    const storedGenres = getDataFromStorage("genres");
-
-    return {
-      genres: storedGenres || [],
-    };
-  } catch (error) {
-    console.error("Failed to load state from local storage:", error);
-    return {};
-  }
+  const storedGenres = getDataFromStorage("genres");
+  return {
+    genres: storedGenres || [],
+  };
 };
-
 
 const preloadedState = loadStateFromLocalStorage();
 

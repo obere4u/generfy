@@ -7,12 +7,12 @@ const allMoviesSlice = createSlice({
     data: [],
     status: "idle",
     error: null,
-    totalPages: 0, // Initialize totalPages in the state
+    totalPages: 0, 
   },
   reducers: {
     clearMovies(state) {
       state.data = [];
-      state.totalPages = 0; // Clear totalPages when movies are cleared
+      state.totalPages = 0;
     },
   },
   extraReducers: (builder) => {

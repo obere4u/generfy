@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Movie from "./page/Movie";
-import MovieDetails from "./components/MovieDetails";
+import MovieDetails from "./page/MovieDetails";
 import Header from "./components/Header";
 import Layout from "./page/Layout";
 import Footer from "./components/Footer";

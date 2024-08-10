@@ -5,7 +5,6 @@ import axios from "axios";
 export const fetchMoviesByGenres = createAsyncThunk(
   "movies/fetchByGenres",
   async ({ selectedGenres, page }, { rejectWithValue }) => {
-    console.log("asy p: ", page)
     if (selectedGenres === 0) {
       return [];
     }

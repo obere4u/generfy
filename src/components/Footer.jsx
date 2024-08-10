@@ -73,7 +73,7 @@ const Footer = () => {
           </div>
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div className="sm:flex sm:items-center sm:justify-between">
+        <div className="flex items-center justify-between">
           <span className="text-sm text-neutral-400 sm:text-center dark:text-gray-400">
             © 2023 - {date}{" "}
             <a
@@ -84,7 +84,7 @@ const Footer = () => {
             </a>
             . All Rights Reserved.
           </span>
-          <div className="flex mt-4 sm:justify-center sm:mt-0">
+          <div className="flex sm:justify-center sm:mt-0">
             <a
               href="https://linkedin.com/in/nwosa-tochukwu"
               className="text-neutral-400 hover:text-neutral-200 dark:hover:text-white"
