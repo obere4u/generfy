@@ -2,10 +2,10 @@ import React from "react";
 
 const Genre = ({ id, genre, genreIds, handleGenreChange }) => {
   return (
-    <div className="mb-4 flex items-center w-fit">
+    <div className="mb-4 flex items-center w-[100px]">
       <label
         htmlFor={`genre-${genre.id}`}
-        className="md:mr-1 cursor-pointer md:w-fit w-full"
+        className="md:mr-1 cursor-pointer w-fit"
       >
         {genre.name}
       </label>
