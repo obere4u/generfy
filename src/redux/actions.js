@@ -5,7 +5,7 @@ import axios from "axios";
 export const fetchMoviesByGenres = createAsyncThunk(
   "movies/fetchByGenres",
   async ({ selectedGenres, page }, { rejectWithValue }) => {
-    if (selectedGenres === 0) {
+    if (selectedGenres.length === 0) {
       return [];
     }
     try {
@@ -21,16 +21,20 @@ export const fetchMoviesByGenres = createAsyncThunk(
       );
 
       return {
-        results: response.data.results,
-        totalPages: response.data.total_pages,
+        results: response?.data?.results,
+        totalPages: response?.data?.total_pages,
       };
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response.data);
+        return rejectWithValue({
+          status_message: error.response?.data?.status_message || "An error occurred",
+          status_code: error.response?.data?.status_code,
+          success: error.response?.data?.success
+        });
       } else {
-        return rejectWithValue(
-          error.response ? error.response.data : error.message
-        );
+        return rejectWithValue({
+          status_message: error.message || "An error occurred"
+        });
       }
     }
   }
@@ -52,12 +56,17 @@ export const fetchMovieById = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response.data);
+        return rejectWithValue({
+          status_message: error.response?.data?.status_message || "An error occurred",
+          status_code: error.response?.data?.status_code,
+          success: error.response?.data?.success
+        });
       } else {
-        return rejectWithValue(
-          error.response ? error.response.data : error.message
-        );
+        return rejectWithValue({
+          status_message: error.message || "An error occurred"
+        });
       }
     }
   }
 );
+

@@ -55,7 +55,14 @@ const Movie = () => {
 
   const handlePageChange = (selectedPage) => {
     setPage(selectedPage);
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
+  };
+
+
+  const handleRetry = () => {
+    if (genreIds.length > 0) {
+      dispatch(fetchMoviesByGenres({ selectedGenres: genreIds, page }));
+    }
   };
 
   return (
@@ -81,7 +88,27 @@ const Movie = () => {
           Recommended Movies
         </h2>
         {status === "loading" && <MovieCardSkeleton count={4} />}
-        {status === "failed" && <p>Error: {error}</p>}
+        {status === "failed" && (
+          <div
+            className="flex flex-col items-center justify-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            role="alert"
+          >
+            <div className="flex flex-col items-center">
+              <strong className="font-bold mr-8">Error!!!:</strong>
+              <span className="block sm:inline">
+                {error.status_message ||
+                  "Something went wrong. Please try again later."}
+              </span>
+            </div>
+            <button
+              className="bg-neutral-800 text-neutral-200 rounded-md mt-8 font-semibold shadow-md hover:bg-opacity-90 transition-colors duration-150 ease-in-out px-4 py-3"
+              onClick={handleRetry}
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
         {movies && (
           <PaginatedItems
             page={page}
