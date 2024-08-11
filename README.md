@@ -16,28 +16,6 @@ Visit [https://generfy.vercel.app/](https://generfy.vercel.app/) to try it out!
 - **Movie Details**: View detailed information about a selected movie, including the plot, cast, and more.
 - **Persist Data**: User preferences and movie data are saved using Local Storage, ensuring your selections are available even after refreshing the page.
 
-## Setup and Run the Web App
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/obere4u/generfy.git
-   ```
-
-2. **Install Dependencies**
-   Navigate to the project directory:
-   ```bash
-   cd generfy
-   npm install
-   ```
-
-3. **Start the Development Server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Visit the App**
-   Open your web browser and visit [http://localhost:5173/](http://localhost:5173/) to start using Genrefy!
-
 ## Local Running of Project
 
 ### The Movie Database API
@@ -74,6 +52,8 @@ Visit [https://generfy.vercel.app/](https://generfy.vercel.app/) to try it out!
    Navigate to the project directory:
    ```bash
    cd generfy
+   ```
+   ```bash
    npm install
    ```
 
