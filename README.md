@@ -22,8 +22,8 @@ Visit [https://generfy.vercel.app/](https://generfy.vercel.app/) to try it out!
 
 #### Create a TMDB Account
 
-1. **Go to themoviedb.org**.
-2. Click on "Sign Up" at the top right corner of the homepage.
+1. Go to [themoviedb.org](https://themoviedb.org).
+2. Click on **Sign Up** at the top right corner of the homepage.
 3. Provide your name, email, password, and other required details.
 4. After signing up, you'll receive a verification email. Click the link in the email to verify your account.
 
@@ -32,10 +32,10 @@ Visit [https://generfy.vercel.app/](https://generfy.vercel.app/) to try it out!
 1. Once your account is verified, log in to your TMDB account.
 2. **Navigate to the API Section**:
    - Click on your profile icon at the top right corner of the page.
-   - From the dropdown menu, select "Settings."
-   - On the left sidebar, select "API" under the "Developer" section.
+   - From the dropdown menu, select **Settings**.
+   - On the left sidebar, select **API** under the **Developer** section.
 3. **Request an API Key**:
-   - Scroll down to the "Request an API Key" section.
+   - Scroll down to the **Request an API Key** section.
    - Choose the appropriate API key type (usually "Developer" for personal projects).
    - Fill out the required information, including your application name and a brief description of how you'll be using the API.
    - Review and accept the terms of use for the TMDB API.
