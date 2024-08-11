@@ -30,7 +30,7 @@ Visit [https://generfy.vercel.app/](https://generfy.vercel.app/) to try it out!
 #### Generate an API Key
 
 1. Once your account is verified, log in to your TMDB account.
-2. Navigate to the API Section:
+2. **Navigate to the API Section**:
    - Click on your profile icon at the top right corner of the page.
    - From the dropdown menu, select "Settings."
    - On the left sidebar, select "API" under the "Developer" section.
